@@ -60,9 +60,12 @@ export default createStore({
   actions: {
     connect({ commit, state, dispatch }) {
       return new Promise((resolve, reject) => {
-        // Dynamically determine WebSocket URL based on current location
+        // In development, connect directly to WebSocket server to avoid proxy issues
+        const isDevelopment = process.env.NODE_ENV === 'development'
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-        const wsUrl = `${protocol}//${window.location.host}/ws`
+        const wsUrl = isDevelopment 
+          ? 'ws://localhost:3000/ws'
+          : `${protocol}//${window.location.host}/ws`
         
         const ws = new WebSocket(wsUrl)
         
