@@ -40,7 +40,7 @@ const players = new Map();
 const playerTimers = new Map(); // Track timers for each player to prevent memory leaks
 const playerMessageCounts = new Map(); // Track message counts for rate limiting
 const RATE_LIMIT_WINDOW = 1000; // 1 second
-const RATE_LIMIT_MAX_MESSAGES = 30; // Max messages per window (increased for smooth movement)
+const RATE_LIMIT_MAX_MESSAGES = 100; // Max messages per window (increased for smooth movement)
 const gameState = {
   width: 2000,
   height: 2000,
@@ -63,6 +63,22 @@ function generateItems() {
 }
 
 generateItems();
+
+// Game loop - send state updates at 30 FPS
+const TICK_RATE = 30;
+const TICK_INTERVAL = 1000 / TICK_RATE;
+
+setInterval(() => {
+  // Broadcast current game state to all connected players
+  if (wss.clients.size > 0) {
+    const stateUpdate = {
+      type: 'stateUpdate',
+      players: Array.from(gameState.players.values()),
+      items: gameState.items
+    };
+    broadcast(stateUpdate);
+  }
+}, TICK_INTERVAL);
 
 // Periodically clean up collected items and regenerate them
 setInterval(() => {

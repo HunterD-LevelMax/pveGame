@@ -182,6 +182,33 @@ export default createStore({
             usedPlayer.shield = data.playerShield
           }
           break
+          
+        case 'stateUpdate':
+          // Update all players from server state
+          data.players.forEach(serverPlayer => {
+            const existingPlayer = state.players.find(p => p.id === serverPlayer.id)
+            if (existingPlayer) {
+              // Update existing player
+              Object.assign(existingPlayer, serverPlayer)
+            } else {
+              // Add new player
+              state.players.push(serverPlayer)
+            }
+          })
+          // Remove players that are no longer in server state
+          state.players = state.players.filter(p => 
+            data.players.some(sp => sp.id === p.id)
+          )
+          // Update current player if exists
+          if (state.player) {
+            const currentPlayerData = data.players.find(p => p.id === state.player.id)
+            if (currentPlayerData) {
+              Object.assign(state.player, currentPlayerData)
+            }
+          }
+          // Update items
+          state.items = data.items
+          break
       }
     },
     
