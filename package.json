@@ -1,0 +1,29 @@
+{
+  "name": "pve-game",
+  "version": "1.0.0",
+  "description": "Multiplayer browser game with Vue.js and WebSocket",
+  "main": "server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server.js",
+    "client": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4",
+    "vuex": "^4.0.2",
+    "ws": "^8.14.2",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^5.0.8",
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["game", "multiplayer", "vue", "websocket"],
+  "author": "",
+  "license": "MIT"
+}
