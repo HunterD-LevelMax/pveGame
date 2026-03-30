@@ -40,7 +40,7 @@ const players = new Map();
 const playerTimers = new Map(); // Track timers for each player to prevent memory leaks
 const playerMessageCounts = new Map(); // Track message counts for rate limiting
 const RATE_LIMIT_WINDOW = 1000; // 1 second
-const RATE_LIMIT_MAX_MESSAGES = 10; // Max messages per window
+const RATE_LIMIT_MAX_MESSAGES = 30; // Max messages per window (increased for smooth movement)
 const gameState = {
   width: 2000,
   height: 2000,
